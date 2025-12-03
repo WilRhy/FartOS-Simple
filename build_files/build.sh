@@ -2,23 +2,19 @@
 
 set -ouex pipefail
 
-### Install packages
+### Install packages for FartOS
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
+# Install specific FartOS gaming software (RPM Fusion repos are available by default in these builds)
+dnf5 install -y steam wine protontricks gamemode libreoffice-writer mesa-vulkan-drivers
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
-
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+# Remove unnecessary LibreOffice components (keep only writer)
+dnf5 -y remove \
+    libreoffice-calc \
+    libreoffice-impress \
+    libreoffice-draw \
+    libreoffice-base \
+    libreoffice-math \
+    libreoffice-core
 
 #### Example for enabling a System Unit File
-
-systemctl enable podman.socket
+# systemctl enable podman.socket
